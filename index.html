@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capturas 3D | Archivo Negro</title>
+    <link rel="icon" href="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/646fbe10ee40ffc388a6c0c8_favicon2.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom: 1px solid #222;
+        }
+        
+        .logo {
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: #888;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 40px 0;
+        }
+        
+        .card {
+            background: #111;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #222;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: #444;
+        }
+        
+        model-viewer {
+            width: 100%;
+            height: 300px;
+            background: #0a0a0a;
+            --poster-color: transparent;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .card-description {
+            font-size: 0.875rem;
+            color: #888;
+            line-height: 1.6;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #222;
+            color: #666;
+            font-size: 0.875rem;
+        }
+        
+        footer a {
+            color: #888;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            color: #fff;
+        }
+        
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .socials img {
+            width: 24px;
+            height: 24px;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+        
+        .socials a:hover img {
+            opacity: 1;
+        }
+        
+        @media (max-width: 600px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            model-viewer {
+                height: 250px;
+            }
+            
+            header {
+                padding: 30px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/646f70222a5f0e470a22f9d9_logoWhite.png" alt="Archivo Negro" class="logo">
+        <h1>Capturas 3D</h1>
+        <p class="subtitle">Tecnología 3D para documentar y compartir el patrimonio afrodescendiente de Puerto Rico. Explora instrumentos tradicionales en detalle.</p>
+    </header>
+    
+    <div class="container">
+        <div class="grid">
+            <!-- Barril de Cuña -->
+            <div class="card">
+                <model-viewer 
+                    src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/68a3b1cf6c34e569547ca50c_e72270827307fb448764fdb1ee167899_Tambor_2a.txt"
+                    poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/6894da61257bbbbf008b3665_Model%20Editor%20Poster.webp"
+                    camera-controls
+                    auto-rotate
+                    shadow-intensity="1"
+                    tone-mapping="commerce"
+                    ar
+                    ar-modes="webxr scene-viewer quick-look">
+                </model-viewer>
+                <div class="card-content">
+                    <h2 class="card-title">Barril de Cuña</h2>
+                    <p class="card-description">Original de los sectores del norte de la isla. Construido en roble blanco europeo, representa las primeras generaciones de la bomba puertorriqueña.</p>
+                </div>
+            </div>
+            
+            <!-- Barril de Torniquete -->
+            <div class="card">
+                <model-viewer 
+                    src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/68a3b1cf4a234defddce45e7_d1f054e763131d355d4c1e5f96a1a9b1_Tambor3a.txt"
+                    poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/6894daa380d8f3aff2b64115_Model%20Editor%20Poster%20(1).webp"
+                    camera-controls
+                    auto-rotate
+                    shadow-intensity="1"
+                    tone-mapping="commerce"
+                    ar
+                    ar-modes="webxr scene-viewer quick-look">
+                </model-viewer>
+                <div class="card-content">
+                    <h2 class="card-title">Barril de Torniquete</h2>
+                    <p class="card-description">Se afina mediante rotación de taquetes de madera entrelazados por sogas trenzadas. Técnica proveniente de las Islas Guadalupe.</p>
+                </div>
+            </div>
+            
+            <!-- El Pandero -->
+            <div class="card">
+                <model-viewer 
+                    src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/68a3a8207fb6fe156704068d_2a1cdcb46519be070767045555af9a92_Pandero3.txt"
+                    poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/6894dac35254864792c5c672_Model%20Editor%20Poster%20(3).webp"
+                    camera-controls
+                    auto-rotate
+                    shadow-intensity="1"
+                    tone-mapping="commerce"
+                    ar
+                    ar-modes="webxr scene-viewer quick-look">
+                </model-viewer>
+                <div class="card-content">
+                    <h2 class="card-title">El Pandero</h2>
+                    <p class="card-description">Instrumento de percusión tradicional de 1976, elaborado con materiales reciclados. Conecta con las festividades de Loíza.</p>
+                </div>
+            </div>
+            
+            <!-- Los Cua -->
+            <div class="card">
+                <model-viewer 
+                    src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/68a3b1d0231c7bde6cc86a26_815573b6a470145d4ee6491a92a7f15c_los_cua.txt"
+                    poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/6894dae2acc9cb6f9860cb69_Model%20Editor%20Poster%20(2).webp"
+                    camera-controls
+                    auto-rotate
+                    shadow-intensity="1"
+                    tone-mapping="commerce"
+                    ar
+                    ar-modes="webxr scene-viewer quick-look">
+                </model-viewer>
+                <div class="card-content">
+                    <h2 class="card-title">Los Cua</h2>
+                    <p class="card-description">Dos piezas de bambú que sirven como base rítmica en la música folclórica. Su nombre significa "acompañante".</p>
+                </div>
+            </div>
+            
+            <!-- Barril del Siglo XVIII -->
+            <div class="card">
+                <model-viewer 
+                    src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/67e4c1f762bd21467670724a_Tambor.txt"
+                    poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/682f2d71dc4d07e6ec24499d_67e4c1f6ad092a086428864e_posterTambor.webp"
+                    camera-controls
+                    auto-rotate
+                    shadow-intensity="1"
+                    tone-mapping="commerce"
+                    ar
+                    ar-modes="webxr scene-viewer quick-look">
+                </model-viewer>
+                <div class="card-content">
+                    <h2 class="card-title">Barril del Siglo XVIII</h2>
+                    <p class="card-description">Reconstrucción histórica basada en fotografía antigua. Utiliza seis amarres de bejuco y técnicas ancestrales de afinación.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2025 <a href="https://www.archivonegro.org">Archivo Negro</a> · San Juan, PR</p>
+        <div class="socials">
+            <a href="https://www.instagram.com/archivo_negro/"><img src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/649f1190368486af14161e8e_Social_icon_IG.svg" alt="Instagram"></a>
+            <a href="https://www.pinterest.com/archivo_negro/"><img src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/657b8a7e6e846c959255b8f7_image.png" alt="Pinterest"></a>
+            <a href="https://www.youtube.com/@Archivo_Negro"><img src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/649f11955c04179c9af51f46_Social_icon_YT.svg" alt="YouTube"></a>
+            <a href="https://www.facebook.com/profile.php?id=61552281286684"><img src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/649f118931e1f1e01686fb7b_Social_icon_FB.svg" alt="Facebook"></a>
+        </div>
+    </footer>
+</body>
+</html>
