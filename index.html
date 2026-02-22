@@ -7,6 +7,10 @@
     <meta property="og:title" content="Capturas 3D | Archivo Negro">
     <meta property="og:description" content="Tecnología 3D para documentar y compartir el patrimonio afrodescendiente de Puerto Rico.">
     <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Capturas 3D | Archivo Negro">
+    <meta name="twitter:description" content="Tecnología 3D para documentar y compartir el patrimonio afrodescendiente de Puerto Rico.">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>Capturas 3D | Archivo Negro</title>
     <link rel="icon" href="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/646fbe10ee40ffc388a6c0c8_favicon2.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -301,6 +305,40 @@
             opacity: 1;
         }
         
+        model-viewer .progress-bar {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #222;
+            pointer-events: none;
+        }
+
+        model-viewer .progress-bar .update-bar {
+            background: #667eea;
+            width: 0%;
+            height: 100%;
+            transition: width 0.1s;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #fff;
+            color: #000;
+            padding: 8px 16px;
+            z-index: 3000;
+            font-size: 14px;
+            transition: top 0.2s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
         @media (max-width: 600px) {
             .grid {
                 grid-template-columns: 1fr;
@@ -325,6 +363,7 @@
     </style>
 </head>
 <body>
+    <a class="skip-link" href="#models">Saltar al contenido</a>
     <header>
         <img src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/646f70222a5f0e470a22f9d9_logoWhite.png" alt="Archivo Negro" class="logo">
         <h1>Capturas 3D</h1>
@@ -332,11 +371,11 @@
     </header>
     
     <div class="container">
-        <div class="grid">
+        <div class="grid" id="models">
             <!-- Barril de Cuña -->
             <div class="card">
                 <div class="model-container">
-                    <model-viewer 
+                    <model-viewer
                         id="model-1"
                         src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/68a3b1cf6c34e569547ca50c_e72270827307fb448764fdb1ee167899_Tambor_2a.txt"
                         poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/6894da61257bbbbf008b3665_Model%20Editor%20Poster.webp"
@@ -344,6 +383,7 @@
                         auto-rotate
                         shadow-intensity="1"
                         tone-mapping="commerce"
+                        loading="lazy"
                         ar
                         ar-modes="webxr scene-viewer quick-look">
                     </model-viewer>
@@ -375,7 +415,7 @@
             <!-- Barril de Torniquete -->
             <div class="card">
                 <div class="model-container">
-                    <model-viewer 
+                    <model-viewer
                         id="model-2"
                         src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/68a3b1cf4a234defddce45e7_d1f054e763131d355d4c1e5f96a1a9b1_Tambor3a.txt"
                         poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/6894daa380d8f3aff2b64115_Model%20Editor%20Poster%20(1).webp"
@@ -383,6 +423,7 @@
                         auto-rotate
                         shadow-intensity="1"
                         tone-mapping="commerce"
+                        loading="lazy"
                         ar
                         ar-modes="webxr scene-viewer quick-look">
                     </model-viewer>
@@ -414,7 +455,7 @@
             <!-- El Pandero -->
             <div class="card">
                 <div class="model-container">
-                    <model-viewer 
+                    <model-viewer
                         id="model-3"
                         src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/68a3a8207fb6fe156704068d_2a1cdcb46519be070767045555af9a92_Pandero3.txt"
                         poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/6894dac35254864792c5c672_Model%20Editor%20Poster%20(3).webp"
@@ -422,6 +463,7 @@
                         auto-rotate
                         shadow-intensity="1"
                         tone-mapping="commerce"
+                        loading="lazy"
                         ar
                         ar-modes="webxr scene-viewer quick-look">
                     </model-viewer>
@@ -708,19 +750,19 @@
                 ar-modes="webxr scene-viewer quick-look">
             </model-viewer>
             <div class="controls">
-                <button class="control-btn ar-btn" onclick="activateModalAR()">
+                <button class="control-btn ar-btn" onclick="activateModalAR()" aria-label="Ver en realidad aumentada">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 5V4a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v1H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1h1a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-1ZM8 20H7V4h1v16Zm8 0H8V4h8v16Zm2 0h-1V4h1v16Z"/><circle cx="12" cy="12" r="3"/></svg>
                     <span>Ver en AR</span>
                 </button>
-                <button class="control-btn primary" onclick="takePhotoModal()">
+                <button class="control-btn primary" onclick="takePhotoModal()" aria-label="Capturar foto del modelo">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9Zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5Z"/></svg>
                     <span>Capturar Foto</span>
                 </button>
-                <button class="control-btn" onclick="shareModel()">
+                <button class="control-btn" onclick="shareModel()" aria-label="Compartir modelo">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92Z"/></svg>
                     <span>Compartir</span>
                 </button>
-                <button class="control-btn" onclick="resetView('modal-viewer')">
+                <button class="control-btn" onclick="resetView('modal-viewer')" aria-label="Reiniciar vista">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35Z"/></svg>
                     <span>Reset</span>
                 </button>
@@ -743,7 +785,25 @@
 
     <script>
         let currentModelName = '';
-        
+        let lastFocusedElement = null;
+
+        // Add progress bars to all model-viewers
+        document.querySelectorAll('model-viewer').forEach(viewer => {
+            const bar = document.createElement('div');
+            bar.className = 'progress-bar';
+            bar.setAttribute('slot', 'progress-bar');
+            bar.innerHTML = '<div class="update-bar"></div>';
+            viewer.appendChild(bar);
+
+            viewer.addEventListener('progress', (e) => {
+                const updateBar = bar.querySelector('.update-bar');
+                updateBar.style.width = `${e.detail.totalProgress * 100}%`;
+                if (e.detail.totalProgress === 1) {
+                    bar.style.display = 'none';
+                }
+            });
+        });
+
         // Take photo from card view
         async function takePhoto(modelId, name) {
             try {
@@ -782,19 +842,24 @@
         
         // Open fullscreen modal
         function openFullscreen(modelId, title, description) {
+            lastFocusedElement = document.activeElement;
             const sourceViewer = document.getElementById(modelId);
             const modalViewer = document.getElementById('modal-viewer');
             const modal = document.getElementById('fullscreen-modal');
-            
+
             modalViewer.src = sourceViewer.src;
             modalViewer.poster = sourceViewer.poster;
             document.getElementById('modal-title').textContent = title;
             document.getElementById('modal-description').textContent = description;
             currentModelName = title;
-            
+
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
-            
+
+            // Focus the close button for accessibility
+            const closeBtn = modal.querySelector('.modal-close');
+            if (closeBtn) closeBtn.focus();
+
             // Check AR support for modal
             setTimeout(() => {
                 if (modalViewer.canActivateAR) {
@@ -820,6 +885,12 @@
             const modal = document.getElementById('fullscreen-modal');
             modal.classList.remove('active');
             document.body.style.overflow = '';
+
+            // Restore focus to the element that opened the modal
+            if (lastFocusedElement) {
+                lastFocusedElement.focus();
+                lastFocusedElement = null;
+            }
         }
         
         // Reset view (works for both card and modal viewers)
@@ -871,9 +942,29 @@
             toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
         }
         
-        // Close modal on escape
+        // Close modal on escape + trap focus inside modal
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeFullscreen();
+            const modal = document.getElementById('fullscreen-modal');
+            if (!modal.classList.contains('active')) return;
+
+            if (e.key === 'Escape') {
+                closeFullscreen();
+                return;
+            }
+
+            if (e.key === 'Tab') {
+                const focusable = modal.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
         });
         
         // AR functionality
@@ -886,16 +977,29 @@
             }
         }
         
-        // Hide AR buttons on devices that don't support it
+        // Hide AR buttons on devices that don't support it + add aria-labels
         document.addEventListener('DOMContentLoaded', () => {
+            // Add aria-labels to card control buttons for mobile accessibility
+            document.querySelectorAll('.card').forEach(card => {
+                const title = card.querySelector('.card-title');
+                if (!title) return;
+                const name = title.textContent;
+                const btns = card.querySelectorAll('.control-btn');
+                btns.forEach(btn => {
+                    const span = btn.querySelector('span');
+                    if (span && !btn.getAttribute('aria-label')) {
+                        btn.setAttribute('aria-label', `${span.textContent} - ${name}`);
+                    }
+                });
+            });
+
             // Check each model-viewer for AR support
             for (let i = 1; i <= 9; i++) {
                 const viewer = document.getElementById(`model-${i}`);
                 const arBtn = document.getElementById(`ar-btn-${i}`);
-                
+
                 if (viewer && arBtn) {
                     viewer.addEventListener('load', () => {
-                        // Give it a moment to detect AR capability
                         setTimeout(() => {
                             if (!viewer.canActivateAR) {
                                 arBtn.classList.add('ar-not-supported');
