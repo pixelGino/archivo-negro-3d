@@ -57,14 +57,14 @@
         
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 30px;
             padding: 40px 0;
         }
         
         .card {
             background: #111;
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
             border: 1px solid #222;
             transition: transform 0.3s ease, border-color 0.3s ease;
@@ -75,11 +75,69 @@
             border-color: #444;
         }
         
+        .model-container {
+            position: relative;
+            background: #0a0a0a;
+        }
+        
         model-viewer {
             width: 100%;
-            height: 300px;
-            background: #0a0a0a;
+            height: 320px;
             --poster-color: transparent;
+        }
+        
+        /* Pro Controls */
+        .controls {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            right: 12px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+        
+        .control-btn {
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .control-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .control-btn.primary {
+            background: rgba(255,255,255,0.9);
+            color: #000;
+        }
+        
+        .control-btn.primary:hover {
+            background: #fff;
+        }
+        
+        /* AR Button Override */
+        model-viewer::part(default-ar-button) {
+            display: none;
         }
         
         .card-content {
@@ -96,6 +154,84 @@
             font-size: 0.875rem;
             color: #888;
             line-height: 1.6;
+        }
+        
+        /* Fullscreen Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 1000;
+        }
+        
+        .modal.active {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: #111;
+            border-bottom: 1px solid #222;
+        }
+        
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+        }
+        
+        .modal-body {
+            flex: 1;
+            position: relative;
+        }
+        
+        .modal model-viewer {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .modal .controls {
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+        }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #222;
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            z-index: 2000;
+            opacity: 0;
+            transition: all 0.3s;
+            border: 1px solid #333;
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
         }
         
         footer {
@@ -139,11 +275,19 @@
             }
             
             model-viewer {
-                height: 250px;
+                height: 280px;
             }
             
             header {
                 padding: 30px 15px;
+            }
+            
+            .controls {
+                flex-wrap: wrap;
+            }
+            
+            .control-btn span {
+                display: none;
             }
         }
     </style>
@@ -159,16 +303,33 @@
         <div class="grid">
             <!-- Barril de Cuña -->
             <div class="card">
-                <model-viewer 
-                    src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/68a3b1cf6c34e569547ca50c_e72270827307fb448764fdb1ee167899_Tambor_2a.txt"
-                    poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/6894da61257bbbbf008b3665_Model%20Editor%20Poster.webp"
-                    camera-controls
-                    auto-rotate
-                    shadow-intensity="1"
-                    tone-mapping="commerce"
-                    ar
-                    ar-modes="webxr scene-viewer quick-look">
-                </model-viewer>
+                <div class="model-container">
+                    <model-viewer 
+                        id="model-1"
+                        src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/68a3b1cf6c34e569547ca50c_e72270827307fb448764fdb1ee167899_Tambor_2a.txt"
+                        poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/6894da61257bbbbf008b3665_Model%20Editor%20Poster.webp"
+                        camera-controls
+                        auto-rotate
+                        shadow-intensity="1"
+                        tone-mapping="commerce"
+                        ar
+                        ar-modes="webxr scene-viewer quick-look">
+                    </model-viewer>
+                    <div class="controls">
+                        <button class="control-btn primary" onclick="takePhoto('model-1', 'Barril de Cuña')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9Zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5Z"/></svg>
+                            <span>Foto</span>
+                        </button>
+                        <button class="control-btn" onclick="openFullscreen('model-1', 'Barril de Cuña', 'Original de los sectores del norte de la isla. Construido en roble blanco europeo.')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3Zm-2-4h2V7h3V5H5v5Zm12 7h-3v2h5v-5h-2v3ZM14 5v2h3v3h2V5h-5Z"/></svg>
+                            <span>Expandir</span>
+                        </button>
+                        <button class="control-btn" onclick="resetView('model-1')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35Z"/></svg>
+                            <span>Reset</span>
+                        </button>
+                    </div>
+                </div>
                 <div class="card-content">
                     <h2 class="card-title">Barril de Cuña</h2>
                     <p class="card-description">Original de los sectores del norte de la isla. Construido en roble blanco europeo, representa las primeras generaciones de la bomba puertorriqueña.</p>
@@ -177,16 +338,33 @@
             
             <!-- Barril de Torniquete -->
             <div class="card">
-                <model-viewer 
-                    src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/68a3b1cf4a234defddce45e7_d1f054e763131d355d4c1e5f96a1a9b1_Tambor3a.txt"
-                    poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/6894daa380d8f3aff2b64115_Model%20Editor%20Poster%20(1).webp"
-                    camera-controls
-                    auto-rotate
-                    shadow-intensity="1"
-                    tone-mapping="commerce"
-                    ar
-                    ar-modes="webxr scene-viewer quick-look">
-                </model-viewer>
+                <div class="model-container">
+                    <model-viewer 
+                        id="model-2"
+                        src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/68a3b1cf4a234defddce45e7_d1f054e763131d355d4c1e5f96a1a9b1_Tambor3a.txt"
+                        poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/6894daa380d8f3aff2b64115_Model%20Editor%20Poster%20(1).webp"
+                        camera-controls
+                        auto-rotate
+                        shadow-intensity="1"
+                        tone-mapping="commerce"
+                        ar
+                        ar-modes="webxr scene-viewer quick-look">
+                    </model-viewer>
+                    <div class="controls">
+                        <button class="control-btn primary" onclick="takePhoto('model-2', 'Barril de Torniquete')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9Zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5Z"/></svg>
+                            <span>Foto</span>
+                        </button>
+                        <button class="control-btn" onclick="openFullscreen('model-2', 'Barril de Torniquete', 'Se afina mediante rotación de taquetes de madera. Técnica proveniente de las Islas Guadalupe.')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3Zm-2-4h2V7h3V5H5v5Zm12 7h-3v2h5v-5h-2v3ZM14 5v2h3v3h2V5h-5Z"/></svg>
+                            <span>Expandir</span>
+                        </button>
+                        <button class="control-btn" onclick="resetView('model-2')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35Z"/></svg>
+                            <span>Reset</span>
+                        </button>
+                    </div>
+                </div>
                 <div class="card-content">
                     <h2 class="card-title">Barril de Torniquete</h2>
                     <p class="card-description">Se afina mediante rotación de taquetes de madera entrelazados por sogas trenzadas. Técnica proveniente de las Islas Guadalupe.</p>
@@ -195,16 +373,33 @@
             
             <!-- El Pandero -->
             <div class="card">
-                <model-viewer 
-                    src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/68a3a8207fb6fe156704068d_2a1cdcb46519be070767045555af9a92_Pandero3.txt"
-                    poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/6894dac35254864792c5c672_Model%20Editor%20Poster%20(3).webp"
-                    camera-controls
-                    auto-rotate
-                    shadow-intensity="1"
-                    tone-mapping="commerce"
-                    ar
-                    ar-modes="webxr scene-viewer quick-look">
-                </model-viewer>
+                <div class="model-container">
+                    <model-viewer 
+                        id="model-3"
+                        src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/68a3a8207fb6fe156704068d_2a1cdcb46519be070767045555af9a92_Pandero3.txt"
+                        poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/6894dac35254864792c5c672_Model%20Editor%20Poster%20(3).webp"
+                        camera-controls
+                        auto-rotate
+                        shadow-intensity="1"
+                        tone-mapping="commerce"
+                        ar
+                        ar-modes="webxr scene-viewer quick-look">
+                    </model-viewer>
+                    <div class="controls">
+                        <button class="control-btn primary" onclick="takePhoto('model-3', 'El Pandero')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9Zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5Z"/></svg>
+                            <span>Foto</span>
+                        </button>
+                        <button class="control-btn" onclick="openFullscreen('model-3', 'El Pandero', 'Instrumento de percusión tradicional de 1976, elaborado con materiales reciclados.')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3Zm-2-4h2V7h3V5H5v5Zm12 7h-3v2h5v-5h-2v3ZM14 5v2h3v3h2V5h-5Z"/></svg>
+                            <span>Expandir</span>
+                        </button>
+                        <button class="control-btn" onclick="resetView('model-3')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35Z"/></svg>
+                            <span>Reset</span>
+                        </button>
+                    </div>
+                </div>
                 <div class="card-content">
                     <h2 class="card-title">El Pandero</h2>
                     <p class="card-description">Instrumento de percusión tradicional de 1976, elaborado con materiales reciclados. Conecta con las festividades de Loíza.</p>
@@ -213,16 +408,33 @@
             
             <!-- Los Cua -->
             <div class="card">
-                <model-viewer 
-                    src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/68a3b1d0231c7bde6cc86a26_815573b6a470145d4ee6491a92a7f15c_los_cua.txt"
-                    poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/6894dae2acc9cb6f9860cb69_Model%20Editor%20Poster%20(2).webp"
-                    camera-controls
-                    auto-rotate
-                    shadow-intensity="1"
-                    tone-mapping="commerce"
-                    ar
-                    ar-modes="webxr scene-viewer quick-look">
-                </model-viewer>
+                <div class="model-container">
+                    <model-viewer 
+                        id="model-4"
+                        src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/68a3b1d0231c7bde6cc86a26_815573b6a470145d4ee6491a92a7f15c_los_cua.txt"
+                        poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/6894dae2acc9cb6f9860cb69_Model%20Editor%20Poster%20(2).webp"
+                        camera-controls
+                        auto-rotate
+                        shadow-intensity="1"
+                        tone-mapping="commerce"
+                        ar
+                        ar-modes="webxr scene-viewer quick-look">
+                    </model-viewer>
+                    <div class="controls">
+                        <button class="control-btn primary" onclick="takePhoto('model-4', 'Los Cua')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9Zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5Z"/></svg>
+                            <span>Foto</span>
+                        </button>
+                        <button class="control-btn" onclick="openFullscreen('model-4', 'Los Cua', 'Dos piezas de bambú que sirven como base rítmica en la música folclórica.')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3Zm-2-4h2V7h3V5H5v5Zm12 7h-3v2h5v-5h-2v3ZM14 5v2h3v3h2V5h-5Z"/></svg>
+                            <span>Expandir</span>
+                        </button>
+                        <button class="control-btn" onclick="resetView('model-4')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35Z"/></svg>
+                            <span>Reset</span>
+                        </button>
+                    </div>
+                </div>
                 <div class="card-content">
                     <h2 class="card-title">Los Cua</h2>
                     <p class="card-description">Dos piezas de bambú que sirven como base rítmica en la música folclórica. Su nombre significa "acompañante".</p>
@@ -231,16 +443,33 @@
             
             <!-- Barril del Siglo XVIII -->
             <div class="card">
-                <model-viewer 
-                    src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/67e4c1f762bd21467670724a_Tambor.txt"
-                    poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/682f2d71dc4d07e6ec24499d_67e4c1f6ad092a086428864e_posterTambor.webp"
-                    camera-controls
-                    auto-rotate
-                    shadow-intensity="1"
-                    tone-mapping="commerce"
-                    ar
-                    ar-modes="webxr scene-viewer quick-look">
-                </model-viewer>
+                <div class="model-container">
+                    <model-viewer 
+                        id="model-5"
+                        src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/67e4c1f762bd21467670724a_Tambor.txt"
+                        poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/682f2d71dc4d07e6ec24499d_67e4c1f6ad092a086428864e_posterTambor.webp"
+                        camera-controls
+                        auto-rotate
+                        shadow-intensity="1"
+                        tone-mapping="commerce"
+                        ar
+                        ar-modes="webxr scene-viewer quick-look">
+                    </model-viewer>
+                    <div class="controls">
+                        <button class="control-btn primary" onclick="takePhoto('model-5', 'Barril del Siglo XVIII')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9Zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5Z"/></svg>
+                            <span>Foto</span>
+                        </button>
+                        <button class="control-btn" onclick="openFullscreen('model-5', 'Barril del Siglo XVIII', 'Reconstrucción histórica basada en fotografía antigua. Utiliza técnicas ancestrales.')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3Zm-2-4h2V7h3V5H5v5Zm12 7h-3v2h5v-5h-2v3ZM14 5v2h3v3h2V5h-5Z"/></svg>
+                            <span>Expandir</span>
+                        </button>
+                        <button class="control-btn" onclick="resetView('model-5')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35Z"/></svg>
+                            <span>Reset</span>
+                        </button>
+                    </div>
+                </div>
                 <div class="card-content">
                     <h2 class="card-title">Barril del Siglo XVIII</h2>
                     <p class="card-description">Reconstrucción histórica basada en fotografía antigua. Utiliza seis amarres de bejuco y técnicas ancestrales de afinación.</p>
@@ -248,6 +477,42 @@
             </div>
         </div>
     </div>
+    
+    <!-- Fullscreen Modal -->
+    <div class="modal" id="fullscreen-modal">
+        <div class="modal-header">
+            <h2 class="modal-title" id="modal-title">Modelo 3D</h2>
+            <button class="modal-close" onclick="closeFullscreen()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <model-viewer 
+                id="modal-viewer"
+                camera-controls
+                auto-rotate
+                shadow-intensity="1"
+                tone-mapping="commerce"
+                ar
+                ar-modes="webxr scene-viewer quick-look">
+            </model-viewer>
+            <div class="controls">
+                <button class="control-btn primary" onclick="takePhotoModal()">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9Zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5Z"/></svg>
+                    <span>Capturar Foto</span>
+                </button>
+                <button class="control-btn" onclick="shareModel()">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92Z"/></svg>
+                    <span>Compartir</span>
+                </button>
+                <button class="control-btn" onclick="resetModalView()">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35Z"/></svg>
+                    <span>Reset</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast -->
+    <div class="toast" id="toast">Foto guardada</div>
     
     <footer>
         <p>© 2025 <a href="https://www.archivonegro.org">Archivo Negro</a> · San Juan, PR</p>
@@ -258,5 +523,114 @@
             <a href="https://www.facebook.com/profile.php?id=61552281286684"><img src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/649f118931e1f1e01686fb7b_Social_icon_FB.svg" alt="Facebook"></a>
         </div>
     </footer>
+
+    <script>
+        let currentModelName = '';
+        
+        // Take photo from card view
+        async function takePhoto(modelId, name) {
+            const viewer = document.getElementById(modelId);
+            const blob = await viewer.toBlob({ mimeType: 'image/png' });
+            downloadBlob(blob, `${name.replace(/\s+/g, '_')}_3D.png`);
+            showToast('📸 Foto guardada');
+        }
+        
+        // Take photo from modal
+        async function takePhotoModal() {
+            const viewer = document.getElementById('modal-viewer');
+            const blob = await viewer.toBlob({ mimeType: 'image/png', idealAspect: true });
+            downloadBlob(blob, `${currentModelName.replace(/\s+/g, '_')}_3D.png`);
+            showToast('📸 Foto guardada');
+        }
+        
+        // Download blob as file
+        function downloadBlob(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Open fullscreen modal
+        function openFullscreen(modelId, title, description) {
+            const sourceViewer = document.getElementById(modelId);
+            const modalViewer = document.getElementById('modal-viewer');
+            const modal = document.getElementById('fullscreen-modal');
+            
+            modalViewer.src = sourceViewer.src;
+            modalViewer.poster = sourceViewer.poster;
+            document.getElementById('modal-title').textContent = title;
+            currentModelName = title;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close fullscreen modal
+        function closeFullscreen() {
+            const modal = document.getElementById('fullscreen-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Reset view
+        function resetView(modelId) {
+            const viewer = document.getElementById(modelId);
+            viewer.cameraOrbit = 'auto auto auto';
+            viewer.cameraTarget = 'auto auto auto';
+            viewer.fieldOfView = 'auto';
+            showToast('🔄 Vista reiniciada');
+        }
+        
+        function resetModalView() {
+            const viewer = document.getElementById('modal-viewer');
+            viewer.cameraOrbit = 'auto auto auto';
+            viewer.cameraTarget = 'auto auto auto';
+            viewer.fieldOfView = 'auto';
+            showToast('🔄 Vista reiniciada');
+        }
+        
+        // Share model
+        async function shareModel() {
+            const viewer = document.getElementById('modal-viewer');
+            const blob = await viewer.toBlob({ mimeType: 'image/png' });
+            const file = new File([blob], `${currentModelName}_3D.png`, { type: 'image/png' });
+            
+            if (navigator.share && navigator.canShare({ files: [file] })) {
+                try {
+                    await navigator.share({
+                        files: [file],
+                        title: currentModelName,
+                        text: `Modelo 3D: ${currentModelName} - Archivo Negro`
+                    });
+                } catch (err) {
+                    if (err.name !== 'AbortError') {
+                        downloadBlob(blob, `${currentModelName.replace(/\s+/g, '_')}_3D.png`);
+                        showToast('📸 Foto guardada');
+                    }
+                }
+            } else {
+                downloadBlob(blob, `${currentModelName.replace(/\s+/g, '_')}_3D.png`);
+                showToast('📸 Foto guardada');
+            }
+        }
+        
+        // Show toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+        
+        // Close modal on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeFullscreen();
+        });
+    </script>
 </body>
 </html>
