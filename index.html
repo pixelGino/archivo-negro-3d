@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tecnología 3D para documentar y compartir el patrimonio afrodescendiente de Puerto Rico. Explora instrumentos tradicionales y máscaras de vejigante en detalle.">
+    <meta property="og:title" content="Capturas 3D | Archivo Negro">
+    <meta property="og:description" content="Tecnología 3D para documentar y compartir el patrimonio afrodescendiente de Puerto Rico.">
+    <meta property="og:type" content="website">
     <title>Capturas 3D | Archivo Negro</title>
     <link rel="icon" href="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/646fbe10ee40ffc388a6c0c8_favicon2.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -198,6 +202,12 @@
         .modal-title {
             font-size: 1.25rem;
             font-weight: 600;
+        }
+
+        .modal-description {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 4px;
         }
         
         .modal-close {
@@ -443,7 +453,7 @@
             <!-- Los Cua -->
             <div class="card">
                 <div class="model-container">
-                    <model-viewer 
+                    <model-viewer
                         id="model-4"
                         src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/68a3b1d0231c7bde6cc86a26_815573b6a470145d4ee6491a92a7f15c_los_cua.txt"
                         poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/6894dae2acc9cb6f9860cb69_Model%20Editor%20Poster%20(2).webp"
@@ -451,6 +461,7 @@
                         auto-rotate
                         shadow-intensity="1"
                         tone-mapping="commerce"
+                        loading="lazy"
                         ar
                         ar-modes="webxr scene-viewer quick-look">
                     </model-viewer>
@@ -482,7 +493,7 @@
             <!-- Barril del Siglo XVIII -->
             <div class="card">
                 <div class="model-container">
-                    <model-viewer 
+                    <model-viewer
                         id="model-5"
                         src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/67e4c1f762bd21467670724a_Tambor.txt"
                         poster="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d482c0/682f2d71dc4d07e6ec24499d_67e4c1f6ad092a086428864e_posterTambor.webp"
@@ -490,6 +501,7 @@
                         auto-rotate
                         shadow-intensity="1"
                         tone-mapping="commerce"
+                        loading="lazy"
                         ar
                         ar-modes="webxr scene-viewer quick-look">
                     </model-viewer>
@@ -521,13 +533,14 @@
             <!-- Máscara de Vejigante -->
             <div class="card">
                 <div class="model-container">
-                    <model-viewer 
+                    <model-viewer
                         id="model-6"
                         src="models/vejigante-mask.glb"
                         camera-controls
                         auto-rotate
                         shadow-intensity="1"
                         tone-mapping="commerce"
+                        loading="lazy"
                         ar
                         ar-modes="webxr scene-viewer quick-look">
                     </model-viewer>
@@ -559,13 +572,14 @@
             <!-- Máscara de Vejigante 2 -->
             <div class="card">
                 <div class="model-container">
-                    <model-viewer 
+                    <model-viewer
                         id="model-7"
                         src="models/vejigante-mask-2.glb"
                         camera-controls
                         auto-rotate
                         shadow-intensity="1"
                         tone-mapping="commerce"
+                        loading="lazy"
                         ar
                         ar-modes="webxr scene-viewer quick-look">
                     </model-viewer>
@@ -597,13 +611,14 @@
             <!-- Máscara de Vejigante 3 -->
             <div class="card">
                 <div class="model-container">
-                    <model-viewer 
+                    <model-viewer
                         id="model-8"
                         src="models/vejigante-mask-3.glb"
                         camera-controls
                         auto-rotate
                         shadow-intensity="1"
                         tone-mapping="commerce"
+                        loading="lazy"
                         ar
                         ar-modes="webxr scene-viewer quick-look">
                     </model-viewer>
@@ -635,13 +650,14 @@
             <!-- Máscara de Vejigante 4 -->
             <div class="card">
                 <div class="model-container">
-                    <model-viewer 
+                    <model-viewer
                         id="model-9"
                         src="models/vejigante-mask-4.glb"
                         camera-controls
                         auto-rotate
                         shadow-intensity="1"
                         tone-mapping="commerce"
+                        loading="lazy"
                         ar
                         ar-modes="webxr scene-viewer quick-look">
                     </model-viewer>
@@ -673,10 +689,13 @@
     </div>
     
     <!-- Fullscreen Modal -->
-    <div class="modal" id="fullscreen-modal">
+    <div class="modal" id="fullscreen-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="modal-header">
-            <h2 class="modal-title" id="modal-title">Modelo 3D</h2>
-            <button class="modal-close" onclick="closeFullscreen()">&times;</button>
+            <div>
+                <h2 class="modal-title" id="modal-title">Modelo 3D</h2>
+                <p class="modal-description" id="modal-description"></p>
+            </div>
+            <button class="modal-close" onclick="closeFullscreen()" aria-label="Cerrar">&times;</button>
         </div>
         <div class="modal-body">
             <model-viewer 
@@ -701,7 +720,7 @@
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92Z"/></svg>
                     <span>Compartir</span>
                 </button>
-                <button class="control-btn" onclick="resetModalView()">
+                <button class="control-btn" onclick="resetView('modal-viewer')">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35Z"/></svg>
                     <span>Reset</span>
                 </button>
@@ -715,10 +734,10 @@
     <footer>
         <p>© 2025 <a href="https://www.archivonegro.org">Archivo Negro</a> · San Juan, PR</p>
         <div class="socials">
-            <a href="https://www.instagram.com/archivo_negro/"><img src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/649f1190368486af14161e8e_Social_icon_IG.svg" alt="Instagram"></a>
-            <a href="https://www.pinterest.com/archivo_negro/"><img src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/657b8a7e6e846c959255b8f7_image.png" alt="Pinterest"></a>
-            <a href="https://www.youtube.com/@Archivo_Negro"><img src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/649f11955c04179c9af51f46_Social_icon_YT.svg" alt="YouTube"></a>
-            <a href="https://www.facebook.com/profile.php?id=61552281286684"><img src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/649f118931e1f1e01686fb7b_Social_icon_FB.svg" alt="Facebook"></a>
+            <a href="https://www.instagram.com/archivo_negro/" target="_blank" rel="noopener noreferrer"><img src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/649f1190368486af14161e8e_Social_icon_IG.svg" alt="Instagram"></a>
+            <a href="https://www.pinterest.com/archivo_negro/" target="_blank" rel="noopener noreferrer"><img src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/657b8a7e6e846c959255b8f7_image.png" alt="Pinterest"></a>
+            <a href="https://www.youtube.com/@Archivo_Negro" target="_blank" rel="noopener noreferrer"><img src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/649f11955c04179c9af51f46_Social_icon_YT.svg" alt="YouTube"></a>
+            <a href="https://www.facebook.com/profile.php?id=61552281286684" target="_blank" rel="noopener noreferrer"><img src="https://cdn.prod.website-files.com/646f6bc79c611cf9a0d48277/649f118931e1f1e01686fb7b_Social_icon_FB.svg" alt="Facebook"></a>
         </div>
     </footer>
 
@@ -727,18 +746,26 @@
         
         // Take photo from card view
         async function takePhoto(modelId, name) {
-            const viewer = document.getElementById(modelId);
-            const blob = await viewer.toBlob({ mimeType: 'image/png' });
-            downloadBlob(blob, `${name.replace(/\s+/g, '_')}_3D.png`);
-            showToast('📸 Foto guardada');
+            try {
+                const viewer = document.getElementById(modelId);
+                const blob = await viewer.toBlob({ mimeType: 'image/png' });
+                downloadBlob(blob, `${name.replace(/\s+/g, '_')}_3D.png`);
+                showToast('📸 Foto guardada');
+            } catch (err) {
+                showToast('⚠️ Error al capturar foto');
+            }
         }
-        
+
         // Take photo from modal
         async function takePhotoModal() {
-            const viewer = document.getElementById('modal-viewer');
-            const blob = await viewer.toBlob({ mimeType: 'image/png', idealAspect: true });
-            downloadBlob(blob, `${currentModelName.replace(/\s+/g, '_')}_3D.png`);
-            showToast('📸 Foto guardada');
+            try {
+                const viewer = document.getElementById('modal-viewer');
+                const blob = await viewer.toBlob({ mimeType: 'image/png', idealAspect: true });
+                downloadBlob(blob, `${currentModelName.replace(/\s+/g, '_')}_3D.png`);
+                showToast('📸 Foto guardada');
+            } catch (err) {
+                showToast('⚠️ Error al capturar foto');
+            }
         }
         
         // Download blob as file
@@ -762,6 +789,7 @@
             modalViewer.src = sourceViewer.src;
             modalViewer.poster = sourceViewer.poster;
             document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-description').textContent = description;
             currentModelName = title;
             
             modal.classList.add('active');
@@ -794,7 +822,7 @@
             document.body.style.overflow = '';
         }
         
-        // Reset view
+        // Reset view (works for both card and modal viewers)
         function resetView(modelId) {
             const viewer = document.getElementById(modelId);
             viewer.cameraOrbit = 'auto auto auto';
@@ -803,45 +831,44 @@
             showToast('🔄 Vista reiniciada');
         }
         
-        function resetModalView() {
-            const viewer = document.getElementById('modal-viewer');
-            viewer.cameraOrbit = 'auto auto auto';
-            viewer.cameraTarget = 'auto auto auto';
-            viewer.fieldOfView = 'auto';
-            showToast('🔄 Vista reiniciada');
-        }
-        
         // Share model
         async function shareModel() {
-            const viewer = document.getElementById('modal-viewer');
-            const blob = await viewer.toBlob({ mimeType: 'image/png' });
-            const file = new File([blob], `${currentModelName}_3D.png`, { type: 'image/png' });
-            
-            if (navigator.share && navigator.canShare({ files: [file] })) {
-                try {
-                    await navigator.share({
-                        files: [file],
-                        title: currentModelName,
-                        text: `Modelo 3D: ${currentModelName} - Archivo Negro`
-                    });
-                } catch (err) {
-                    if (err.name !== 'AbortError') {
-                        downloadBlob(blob, `${currentModelName.replace(/\s+/g, '_')}_3D.png`);
-                        showToast('📸 Foto guardada');
+            try {
+                const viewer = document.getElementById('modal-viewer');
+                const blob = await viewer.toBlob({ mimeType: 'image/png' });
+                const filename = `${currentModelName.replace(/\s+/g, '_')}_3D.png`;
+                const file = new File([blob], filename, { type: 'image/png' });
+
+                if (navigator.share && navigator.canShare({ files: [file] })) {
+                    try {
+                        await navigator.share({
+                            files: [file],
+                            title: currentModelName,
+                            text: `Modelo 3D: ${currentModelName} - Archivo Negro`
+                        });
+                    } catch (err) {
+                        if (err.name !== 'AbortError') {
+                            downloadBlob(blob, filename);
+                            showToast('📸 Foto guardada');
+                        }
                     }
+                } else {
+                    downloadBlob(blob, filename);
+                    showToast('📸 Foto guardada');
                 }
-            } else {
-                downloadBlob(blob, `${currentModelName.replace(/\s+/g, '_')}_3D.png`);
-                showToast('📸 Foto guardada');
+            } catch (err) {
+                showToast('⚠️ Error al compartir');
             }
         }
         
         // Show toast notification
+        let toastTimeout = null;
         function showToast(message) {
             const toast = document.getElementById('toast');
+            if (toastTimeout) clearTimeout(toastTimeout);
             toast.textContent = message;
             toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
         }
         
         // Close modal on escape
