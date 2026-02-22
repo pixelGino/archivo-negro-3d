@@ -135,9 +135,22 @@
             background: #fff;
         }
         
-        /* AR Button Override */
+        /* AR Button Override - hide default, use custom */
         model-viewer::part(default-ar-button) {
             display: none;
+        }
+        
+        .ar-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: rgba(255,255,255,0.2);
+        }
+        
+        .ar-btn:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+        
+        .ar-not-supported {
+            display: none !important;
         }
         
         .card-content {
@@ -210,6 +223,14 @@
             bottom: 20px;
             left: 20px;
             right: 20px;
+        }
+        
+        .modal .ar-btn {
+            display: none;
+        }
+        
+        .modal.ar-supported .ar-btn {
+            display: flex;
         }
         
         /* Toast notification */
@@ -316,6 +337,10 @@
                         ar-modes="webxr scene-viewer quick-look">
                     </model-viewer>
                     <div class="controls">
+                        <button class="control-btn ar-btn" id="ar-btn-1" onclick="activateAR('model-1')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 5V4a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v1H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1h1a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-1ZM8 20H7V4h1v16Zm8 0H8V4h8v16Zm2 0h-1V4h1v16Z"/><circle cx="12" cy="12" r="3"/></svg>
+                            <span>AR</span>
+                        </button>
                         <button class="control-btn primary" onclick="takePhoto('model-1', 'Barril de Cuña')">
                             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9Zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5Z"/></svg>
                             <span>Foto</span>
@@ -351,6 +376,10 @@
                         ar-modes="webxr scene-viewer quick-look">
                     </model-viewer>
                     <div class="controls">
+                        <button class="control-btn ar-btn" id="ar-btn-2" onclick="activateAR('model-2')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 5V4a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v1H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1h1a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-1ZM8 20H7V4h1v16Zm8 0H8V4h8v16Zm2 0h-1V4h1v16Z"/><circle cx="12" cy="12" r="3"/></svg>
+                            <span>AR</span>
+                        </button>
                         <button class="control-btn primary" onclick="takePhoto('model-2', 'Barril de Torniquete')">
                             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9Zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5Z"/></svg>
                             <span>Foto</span>
@@ -386,6 +415,10 @@
                         ar-modes="webxr scene-viewer quick-look">
                     </model-viewer>
                     <div class="controls">
+                        <button class="control-btn ar-btn" id="ar-btn-3" onclick="activateAR('model-3')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 5V4a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v1H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1h1a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-1ZM8 20H7V4h1v16Zm8 0H8V4h8v16Zm2 0h-1V4h1v16Z"/><circle cx="12" cy="12" r="3"/></svg>
+                            <span>AR</span>
+                        </button>
                         <button class="control-btn primary" onclick="takePhoto('model-3', 'El Pandero')">
                             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9Zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5Z"/></svg>
                             <span>Foto</span>
@@ -421,6 +454,10 @@
                         ar-modes="webxr scene-viewer quick-look">
                     </model-viewer>
                     <div class="controls">
+                        <button class="control-btn ar-btn" id="ar-btn-4" onclick="activateAR('model-4')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 5V4a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v1H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1h1a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-1ZM8 20H7V4h1v16Zm8 0H8V4h8v16Zm2 0h-1V4h1v16Z"/><circle cx="12" cy="12" r="3"/></svg>
+                            <span>AR</span>
+                        </button>
                         <button class="control-btn primary" onclick="takePhoto('model-4', 'Los Cua')">
                             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9Zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5Z"/></svg>
                             <span>Foto</span>
@@ -456,6 +493,10 @@
                         ar-modes="webxr scene-viewer quick-look">
                     </model-viewer>
                     <div class="controls">
+                        <button class="control-btn ar-btn" id="ar-btn-5" onclick="activateAR('model-5')">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 5V4a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v1H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1h1a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-1ZM8 20H7V4h1v16Zm8 0H8V4h8v16Zm2 0h-1V4h1v16Z"/><circle cx="12" cy="12" r="3"/></svg>
+                            <span>AR</span>
+                        </button>
                         <button class="control-btn primary" onclick="takePhoto('model-5', 'Barril del Siglo XVIII')">
                             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9Zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5Z"/></svg>
                             <span>Foto</span>
@@ -495,6 +536,10 @@
                 ar-modes="webxr scene-viewer quick-look">
             </model-viewer>
             <div class="controls">
+                <button class="control-btn ar-btn" onclick="activateModalAR()">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 5V4a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v1H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1h1a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-1ZM8 20H7V4h1v16Zm8 0H8V4h8v16Zm2 0h-1V4h1v16Z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <span>Ver en AR</span>
+                </button>
                 <button class="control-btn primary" onclick="takePhotoModal()">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9Zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5Z"/></svg>
                     <span>Capturar Foto</span>
@@ -568,6 +613,25 @@
             
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
+            
+            // Check AR support for modal
+            setTimeout(() => {
+                if (modalViewer.canActivateAR) {
+                    modal.classList.add('ar-supported');
+                } else {
+                    modal.classList.remove('ar-supported');
+                }
+            }, 500);
+        }
+        
+        // Activate AR from modal
+        function activateModalAR() {
+            const viewer = document.getElementById('modal-viewer');
+            if (viewer.canActivateAR) {
+                viewer.activateAR();
+            } else {
+                showToast('📱 AR requiere iOS/Android con soporte ARCore/ARKit');
+            }
         }
         
         // Close fullscreen modal
@@ -630,6 +694,36 @@
         // Close modal on escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeFullscreen();
+        });
+        
+        // AR functionality
+        function activateAR(modelId) {
+            const viewer = document.getElementById(modelId);
+            if (viewer.canActivateAR) {
+                viewer.activateAR();
+            } else {
+                showToast('📱 AR requiere iOS/Android con soporte ARCore/ARKit');
+            }
+        }
+        
+        // Hide AR buttons on devices that don't support it
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check each model-viewer for AR support
+            for (let i = 1; i <= 5; i++) {
+                const viewer = document.getElementById(`model-${i}`);
+                const arBtn = document.getElementById(`ar-btn-${i}`);
+                
+                if (viewer && arBtn) {
+                    viewer.addEventListener('load', () => {
+                        // Give it a moment to detect AR capability
+                        setTimeout(() => {
+                            if (!viewer.canActivateAR) {
+                                arBtn.classList.add('ar-not-supported');
+                            }
+                        }, 500);
+                    });
+                }
+            }
         });
     </script>
 </body>
