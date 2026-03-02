@@ -387,7 +387,7 @@
                         tone-mapping="commerce"
                         loading="lazy"
                         ar
-                        ar-modes="webxr scene-viewer quick-look">
+                        ar-modes="webxr quick-look">
                     </model-viewer>
                     <div class="controls">
                         <button class="control-btn ar-btn" id="ar-btn-1" onclick="activateAR('model-1')">
@@ -427,7 +427,7 @@
                         tone-mapping="commerce"
                         loading="lazy"
                         ar
-                        ar-modes="webxr scene-viewer quick-look">
+                        ar-modes="webxr quick-look">
                     </model-viewer>
                     <div class="controls">
                         <button class="control-btn ar-btn" id="ar-btn-2" onclick="activateAR('model-2')">
@@ -467,7 +467,7 @@
                         tone-mapping="commerce"
                         loading="lazy"
                         ar
-                        ar-modes="webxr scene-viewer quick-look">
+                        ar-modes="webxr quick-look">
                     </model-viewer>
                     <div class="controls">
                         <button class="control-btn ar-btn" id="ar-btn-3" onclick="activateAR('model-3')">
@@ -507,7 +507,7 @@
                         tone-mapping="commerce"
                         loading="lazy"
                         ar
-                        ar-modes="webxr scene-viewer quick-look">
+                        ar-modes="webxr quick-look">
                     </model-viewer>
                     <div class="controls">
                         <button class="control-btn ar-btn" id="ar-btn-4" onclick="activateAR('model-4')">
@@ -547,7 +547,7 @@
                         tone-mapping="commerce"
                         loading="lazy"
                         ar
-                        ar-modes="webxr scene-viewer quick-look">
+                        ar-modes="webxr quick-look">
                     </model-viewer>
                     <div class="controls">
                         <button class="control-btn ar-btn" id="ar-btn-5" onclick="activateAR('model-5')">
@@ -580,6 +580,7 @@
                     <model-viewer
                         id="model-6"
                         src="models/vejigante-mask.glb"
+                        data-ar-src="models/vejigante-mask-no-draco.glb"
                         camera-controls
                         auto-rotate
                         shadow-intensity="1"
@@ -619,6 +620,7 @@
                     <model-viewer
                         id="model-7"
                         src="models/vejigante-mask-2.glb"
+                        data-ar-src="models/vejigante-mask-2-no-draco.glb"
                         camera-controls
                         auto-rotate
                         shadow-intensity="1"
@@ -658,6 +660,7 @@
                     <model-viewer
                         id="model-8"
                         src="models/vejigante-mask-3.glb"
+                        data-ar-src="models/vejigante-mask-3-no-draco.glb"
                         camera-controls
                         auto-rotate
                         shadow-intensity="1"
@@ -697,6 +700,7 @@
                     <model-viewer
                         id="model-9"
                         src="models/vejigante-mask-4.glb"
+                        data-ar-src="models/vejigante-mask-4-no-draco.glb"
                         camera-controls
                         auto-rotate
                         shadow-intensity="1"
@@ -851,6 +855,8 @@
 
             modalViewer.src = sourceViewer.src;
             modalViewer.poster = sourceViewer.poster;
+            modalViewer.dataset.arSrc = sourceViewer.dataset.arSrc || '';
+            modalViewer.setAttribute('ar-modes', sourceViewer.getAttribute('ar-modes'));
             document.getElementById('modal-title').textContent = title;
             document.getElementById('modal-description').textContent = description;
             currentModelName = title;
@@ -876,7 +882,18 @@
         function activateModalAR() {
             const viewer = document.getElementById('modal-viewer');
             if (viewer.canActivateAR) {
-                viewer.activateAR();
+                const arSrc = viewer.dataset.arSrc;
+                if (arSrc) {
+                    const originalSrc = viewer.src;
+                    viewer.src = arSrc;
+                    viewer.addEventListener('load', function onArLoad() {
+                        viewer.removeEventListener('load', onArLoad);
+                        viewer.activateAR();
+                        viewer.src = originalSrc;
+                    }, { once: true });
+                } else {
+                    viewer.activateAR();
+                }
             } else {
                 showToast('📱 AR requiere iOS/Android con soporte ARCore/ARKit');
             }
@@ -969,11 +986,22 @@
             }
         });
         
-        // AR functionality
+        // AR functionality - swap to non-Draco model for Scene Viewer compatibility
         function activateAR(modelId) {
             const viewer = document.getElementById(modelId);
             if (viewer.canActivateAR) {
-                viewer.activateAR();
+                const arSrc = viewer.dataset.arSrc;
+                if (arSrc) {
+                    const originalSrc = viewer.src;
+                    viewer.src = arSrc;
+                    viewer.addEventListener('load', function onArLoad() {
+                        viewer.removeEventListener('load', onArLoad);
+                        viewer.activateAR();
+                        viewer.src = originalSrc;
+                    }, { once: true });
+                } else {
+                    viewer.activateAR();
+                }
             } else {
                 showToast('📱 AR requiere iOS/Android con soporte ARCore/ARKit');
             }
